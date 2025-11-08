@@ -12,6 +12,8 @@ class LowVoltage : public UIElement {
         void draw();
 
         void update();
+        
+        void deactivate();
 };
 
 #endif

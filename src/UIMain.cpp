@@ -201,6 +201,7 @@ Menu mainMenu(-100, 0, 0, 0, 70, 64, 4, {new Text("Calculator"), new Text("RPN C
 
 UIElement *currentElement = &mainMenu;
 UIElement *previousElement = nullptr;
+unsigned long lastTmpUpdate = 0;
 
 void displayTitle()
 {
@@ -218,19 +219,27 @@ void displayTitle()
 
 void checkLowVoltage()
 {
-    if (getBatteryVoltage() < 2.8)
+    if (lastTmpUpdate + 5000 > millis())
+        return;
+    
+    if (getBatteryVoltage() < 4.0)
     {
+        Serial.println("Low Voltage Detected!");
         if (currentElement != &lowVoltageUI)
         {
+            Serial.println("Switching to Low Voltage UI");
             previousElement = currentElement;
             currentElement = &lowVoltageUI;
+            currentElement -> activate();
         }
-        sleep(500);
     }
     else if (currentElement == &lowVoltageUI)
     {
+        Serial.println("Voltage Normal, Returning to Previous UI");
+        currentElement -> deactivate();
         if (previousElement != nullptr)
         {
+            
             currentElement = previousElement;
             previousElement = nullptr;
         }
@@ -239,5 +248,7 @@ void checkLowVoltage()
             currentElement = &mainMenu;
         }
     }
+
+    lastTmpUpdate = millis();
 
 }
