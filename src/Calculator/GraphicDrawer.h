@@ -13,6 +13,7 @@ class GraphicDrawer : public UIElement {
         void setExpression(std::string expression);
         void clearGraph();
         void calcGraph();
+        void calcGraphByStep();
         float getScale();
         void setScale(float scale);
         void draw();
@@ -25,6 +26,7 @@ class GraphicDrawer : public UIElement {
         bool hasExpression;
         bool isDrew;
         bool isDrawing;
+        int currentX;
         std::vector<std::pair<int, int>> points;
 };
 #endif

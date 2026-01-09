@@ -46,13 +46,14 @@ void GraphicDrawer::setExpression(std::string expression)
     isDrawing = true;
     update();
     u8g2.sendBuffer();
-    calcGraph();
+    currentX = 0;
 }
 
 void GraphicDrawer::clearGraph()
 {
     hasExpression = false;
     isDrew = false;
+    isDrawing = false;
     points.clear();
 }
 void GraphicDrawer::calcGraph()
@@ -74,6 +75,25 @@ void GraphicDrawer::calcGraph()
     isDrew = true;
     isDrawing = false;
 }
+void GraphicDrawer::calcGraphByStep()
+{
+    if (!hasExpression) return;
+    if (currentX >= width) {
+        isDrew = true;
+        isDrawing = false;
+        currentX = 0; // Reset for next time
+        return;
+    }
+    float fx = (currentX - 105) / scale;
+    float fy = expressionObject->evaluateWithVariable("x", fx);
+    int y = (this->y + height) / 2 - fy * scale;
+
+    if (y >= this->y && y < this->y + height)
+    {
+        points.push_back(std::make_pair(currentX, y));
+    }
+    currentX++;
+}
 float GraphicDrawer::getScale()
 {
     return scale;
@@ -89,7 +109,7 @@ void GraphicDrawer::draw()
     u8g2.drawRFrame(x, y, width, height, 2);
     if (isDrawing){
         u8g2.drawStr(x + width / 2 - u8g2.getStrWidth("Drawing...") / 2, y + height / 2 + (u8g2.getAscent() - u8g2.getDescent()) / 2, "Drawing..."); // ps:这是一行可供参考的中央字符串绘制代码（
-        return;
+        calcGraphByStep();
     }
     
 

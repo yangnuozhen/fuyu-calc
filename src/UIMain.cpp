@@ -219,10 +219,10 @@ void displayTitle()
 
 void checkLowVoltage()
 {
-    if (lastTmpUpdate + 5000 > millis())
+    if (lastTmpUpdate + 1000 > millis())
         return;
     
-    if (getBatteryVoltage() < 4.0)
+    if (getBatteryVoltage() < 3.1)
     {
         Serial.println("Low Voltage Detected!");
         if (currentElement != &lowVoltageUI)
