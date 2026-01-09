@@ -4,6 +4,8 @@ GraphicDrawer::GraphicDrawer(int x, int y, int width, int height) : UIElement(x,
 {
     this->hasExpression = false;
     this->scale = 10.0;
+    this->isDrew = false;
+    this->isDrawing = false;
 }
 
 void GraphicDrawer::init()
@@ -44,9 +46,10 @@ void GraphicDrawer::setExpression(std::string expression)
     hasExpression = true;
     isDrew = false;
     isDrawing = true;
+    currentX = 0;
     update();
     u8g2.sendBuffer();
-    currentX = 0;
+    
 }
 
 void GraphicDrawer::clearGraph()
