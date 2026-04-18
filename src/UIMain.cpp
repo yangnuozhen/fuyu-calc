@@ -108,20 +108,19 @@ MacroPad calcLayout({Layout("1", layoutCalc1),
     Layout("G2", layoutCalc2)
 }); */
 
-Menu menuSpecs(0, -70, 0, 0, 210, 64, 5, {
-    new Text(("Version: " + VERSION).c_str()),
-    new Text("Firmware Based On V1.2"),
-    new Text("Powered by an ESP32 WROOM-32E"), 
-    new Text("Kailh choc switches"), 
-    new Text("Designed by SHAO"),
-    new Text("Firmware Developed by SHAp256"),
-    new Text("Firmware Modified by Aunt_nuozhen"),
-    new Text("Hardware Installed by Aunt_nuozhen"),
-    new Text("Owned by Aunt_nuozhen")
-},
-{
-    &funstuff,
-                nullptr,
+Menu menuSpecs(0, -70, 0, 0, 210, 64, 5,
+               {
+                   new Text("~FUYU CALC~"),
+                   new Text(("Fuyu Version: " + VERSION).c_str()),
+                   new Text("Based on SCI-CALC @ 684103f"),
+                   new Text("Powered by an ESP32 WROOM-32E"),
+                   new Text("Kailh choc switches"),
+                   new Text("Designed by SHAO"),
+                   new Text("Firmware Developed by SHAp256"),
+                   new Text("Firmware Modified by Aunt_nuozhen"),
+               },
+               {nullptr,
+                &funstuff,
                 nullptr,
                 nullptr,
                 nullptr,
@@ -129,21 +128,11 @@ Menu menuSpecs(0, -70, 0, 0, 210, 64, 5, {
                 nullptr,
                 nullptr});
 
-
-Menu menuSettings(0, -70, 0, 0, 210, 64, 5, {
-    &checkbox1,
-    &checkbox2,
-    new Text("Reload Bin"),
-    new Text("About")
-},
-{
-    &checkbox1,
-    &checkbox2,
-    new BinLink("/main.bin"),
-    &menuSpecs
-});
-
-
+Menu menuSettings(0, -70, 0, 0, 210, 64, 5, {&checkbox1, &checkbox2, new Text("Reload Bin"), new Text("About")},
+                  {&checkbox1,
+                   &checkbox2,
+                   new BinLink("/main.bin", true),
+                   &menuSpecs});
 
 Calculator calcMain(0, 0, 210, 64, &calcMenu, &expressionInput);
 CalculatorRPN calcRPN(0, 0, 210, 64);
@@ -159,24 +148,14 @@ Menu weatherCitySelector(0, -70, 0, 0, 210, 64, 5, {
     &xiamenWeather,
 }); */
 
-Menu programMenu(0, -70, 0, 0, 210, 64, 4, {
-    new Text("Chess"),
-    new Text("Spacetrash"),
-    new Text("Snake"),
-    new Text("Tetris"),
-    new Text("Catacombs of the damned"),
-    new Text("Squario"),
-    new Text("Web File Browser Server")
-},
-{
-    new BinLink("/chess.bin"),
-    new BinLink("/spacetrash.bin"),
-    new BinLink("/snake.bin"),
-    new BinLink("/tetris.bin"),
-    new BinLink("/COTD.bin"),
-    new BinLink("/squario.bin"),
-    new BinLink("/WFB.bin")
-});
+Menu programMenu(0, -70, 0, 0, 210, 64, 4, {new Text("Chess"), new Text("Spacetrash"), new Text("Snake"), new Text("Tetris"), new Text("Catacombs of the damned"), new Text("Squario"), new Text("Web File Browser Server")},
+                 {new BinLink("/chess.bin"),
+                  new BinLink("/spacetrash.bin"),
+                  new BinLink("/snake.bin"),
+                  new BinLink("/tetris.bin"),
+                  new BinLink("/COTD.bin"),
+                  new BinLink("/squario.bin"),
+                  new BinLink("/WFB.bin")});
 
 Menu stopwatchMenu(0, -70, 0, 0, 110, 64, 4);
 
@@ -220,7 +199,7 @@ void displayTitle()
         u8g2.setFont(u8g2_font_inb19_mf);
         u8g2.drawStr(78, 35, "SCI-CLAC");
         u8g2.setFont(u8g2_font_profont10_mf);
-        u8g2.drawStr(90, 55, "Owned by Aunt_nuozhen");
+        u8g2.drawStr(95, 55, ("Fuyu Ver.| " + VERSION).c_str());
         u8g2.setFont(u8g2_font_profont10_mf);
     }
     // struct tm timeinfo = rtc.getTimeStruct();
@@ -230,7 +209,7 @@ void checkLowVoltage()
 {
     if (lastTmpUpdate + 1000 > millis())
         return;
-    
+
     if (getBatteryVoltage() < 3.1)
     {
         Serial.println("Low Voltage Detected!");
@@ -239,16 +218,16 @@ void checkLowVoltage()
             Serial.println("Switching to Low Voltage UI");
             previousElement = currentElement;
             currentElement = &lowVoltageUI;
-            currentElement -> activate();
+            currentElement->activate();
         }
     }
     else if (currentElement == &lowVoltageUI)
     {
         Serial.println("Voltage Normal, Returning to Previous UI");
-        currentElement -> deactivate();
+        currentElement->deactivate();
         if (previousElement != nullptr)
         {
-            
+
             currentElement = previousElement;
             previousElement = nullptr;
         }
@@ -259,5 +238,4 @@ void checkLowVoltage()
     }
 
     lastTmpUpdate = millis();
-
 }
