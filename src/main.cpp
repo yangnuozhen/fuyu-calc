@@ -40,6 +40,13 @@ void setup()
     appInit();
     kb.init();
     bleKeyboard.begin();
+    if (!sdAvailable)
+    {
+        mainMenu = noSdMainMenu;
+    }
+    else{
+        mainMenu = hasSdMainMenu;
+    }
     currentElement->init();
     u8g2.clearBuffer();
     currentElement->activate();

@@ -187,18 +187,27 @@ Menu statisticsDataMenu(-100, 0, 0, 0, 110, 48, 3);
 StatisticsUI statistics(0, 0, 210, 64, &statisticsInputBox, &statisticsDataMenu);
 
 LowVoltage lowVoltageUI;
-Menu mainMenu(-100, 0, 0, 0, 70, 64, 4, {new Text("Calculator"), new Text("RPN Calc"), new Text("Graphic"), new Text("Statistics"), new Text("Macropad"), new Text("Programs"), new Text("Stopwatch"), new Text("Settings")},
-              {&calcMain,
-               &calcRPN,
-               &graCalc,
-               &statistics,
-               &macropadUI,
-               &programMenu,
-               &stopwatchUI,
-    &menuSettings
-});
 
+Menu mainMenu;
 
+Menu hasSdMainMenu(-100, 0, 0, 0, 70, 64, 4, {new Text("Calculator"), new Text("RPN Calc"), new Text("Graphic"), new Text("Statistics"), new Text("Macropad"), new Text("Programs"), new Text("Stopwatch"), new Text("Settings")},
+                   {&calcMain,
+                    &calcRPN,
+                    &graCalc,
+                    &statistics,
+                    &macropadUI,
+                    &programMenu,
+                    &stopwatchUI,
+                    &menuSettings});
+
+Menu noSdMainMenu(-100, 0, 0, 0, 70, 64, 4, {new Text("Calculator"), new Text("RPN Calc"), new Text("Graphic"), new Text("Statistics"), new Text("Macropad"), new Text("Stopwatch"), new Text("Settings")},
+                  {&calcMain,
+                   &calcRPN,
+                   &graCalc,
+                   &statistics,
+                   &macropadUI,
+                   &stopwatchUI,
+                   &menuSettings});
 UIElement *currentElement = &mainMenu;
 UIElement *previousElement = nullptr;
 unsigned long lastTmpUpdate = 0;

@@ -41,9 +41,12 @@ extern MacropadUI macropadUI;
 
 extern Menu menu;
 extern Menu mainMenu;
+extern Menu noSdMainMenu;
+extern Menu hasSdMainMenu;
 
 void displayTitle();
 void checkLowVoltage();
+
 
 
 #endif
