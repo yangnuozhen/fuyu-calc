@@ -19,7 +19,7 @@ void StatisticsUI::activate()
 {
     this->dataMenu->activate();
     currentElement = this;
-    bool viewState = 0;
+    this->viewState = 0;
     insertAnimation(new Animation(this->dataInputBox, INDENT, 0, 57, 500));
 }
 
@@ -133,7 +133,7 @@ void StatisticsUI::update()
     // Shift + Enter
     else if (kb.getKey(3, 3).getIsPressed() && kb.getKey(4, 0).getIsPressed() && this->viewState == 0 && this->dataMenu->getSize() != 0)
     {
-        bool viewState = 1;
+        this->viewState = 1;
         calcLayout.setLayout(0);
         calculateAll();
     }

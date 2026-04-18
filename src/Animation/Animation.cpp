@@ -23,6 +23,7 @@ Constructs a animation object
 Animation::Animation(UIElement* targetUI, AnimationType aniType, int endX, int endY, int totalTime) {
     this -> type = false;
     this -> targetUI = targetUI;
+    this -> targetVal = nullptr;
     this -> aniType = aniType; 
     this -> startX = targetUI -> getX();
     this -> startY = targetUI -> getY();
@@ -51,6 +52,7 @@ Constructs a animation object
 Animation::Animation(UIElement* targetUI, AnimationType aniType, int endX, int endY, int endWidth, int endHeight, int totalTime) {
     this -> type = false;
     this -> targetUI = targetUI;
+    this -> targetVal = nullptr;
     this -> aniType = aniType;
     this -> startX = targetUI -> getX();
     this -> startY = targetUI -> getY();
@@ -81,6 +83,7 @@ Constructs a animation object, used to animate individual values
 Animation::Animation(int* targetVal, AnimationType aniType, int endVal, int totalTime) {
     this -> type = true;
     this -> targetVal = targetVal;
+    this -> targetUI = nullptr;
     this -> aniType = aniType;
     this -> startVal = *(targetVal);
     this -> endVal = endVal;
@@ -102,6 +105,7 @@ Constructs a animation object
 Animation::Animation(UIElement* targetUI, AnimationType aniType, int endX, int endY, int totalTime, int delayTime) {
     this -> type = false;
     this -> targetUI = targetUI;
+    this -> targetVal = nullptr;
     this -> aniType = aniType;
     this -> startX = targetUI -> getX();
     this -> startY = targetUI -> getY();
@@ -131,6 +135,7 @@ Constructs a animation object
 Animation::Animation(UIElement* targetUI, AnimationType aniType, int endX, int endY, int endWidth, int endHeight, int totalTime, int delayTime) {
     this -> type = false;
     this -> targetUI = targetUI;
+    this -> targetVal = nullptr;
     this -> aniType = aniType;
     this -> startX = targetUI -> getX();
     this -> startY = targetUI -> getY();
@@ -162,6 +167,7 @@ Constructs a animation object, used to animate individual values
 Animation::Animation(int* targetVal, AnimationType aniType, int endVal, int totalTime, int delayTime) {
     this -> type = true;
     this -> targetVal = targetVal;
+    this -> targetUI = nullptr;
     this -> aniType = aniType;
     this -> startVal = *(targetVal);
     this -> endVal = endVal;
@@ -463,10 +469,20 @@ int durationWhole = 0;
 // An element might have multiple animations added to it at once, this mapping procedure makes sure that only the latest animation gets animated
 void insertAnimation(Animation* animation) {
     if (animation -> getTargetElement() != nullptr) {
-        animationsUI[animation -> getTargetElement()] = animation;
+        UIElement* target = animation -> getTargetElement();
+        auto oldAnimation = animationsUI.find(target);
+        if (oldAnimation != animationsUI.end() && oldAnimation -> second != animation) {
+            delete oldAnimation -> second;
+        }
+        animationsUI[target] = animation;
     }
     else {
-        animationsInt[animation -> getTargetVal()] = animation;
+        int* target = animation -> getTargetVal();
+        auto oldAnimation = animationsInt.find(target);
+        if (oldAnimation != animationsInt.end() && oldAnimation -> second != animation) {
+            delete oldAnimation -> second;
+        }
+        animationsInt[target] = animation;
     }   
 }
 
@@ -506,6 +522,7 @@ void animateAll() {
             ++animation;
         }
         else {
+            delete animation -> second;
             animation = animationsUI.erase(animation);
         }
     }
@@ -526,6 +543,7 @@ void animateAll() {
             ++animation;
         }
         else {
+            delete animation -> second;
             animation = animationsInt.erase(animation);
         }
     }

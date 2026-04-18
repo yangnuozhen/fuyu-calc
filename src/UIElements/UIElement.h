@@ -20,6 +20,7 @@ class UIElement {
         UIElement(int x, int y, bool drawParent);
         UIElement(int x, int y, int width, int height, bool drawParent);
         UIElement(int x, int y, int width, int height, std::vector <UIElement*> subElements, bool drawParents);
+        virtual ~UIElement() = default;
 
         virtual void init();
         virtual void activate();
