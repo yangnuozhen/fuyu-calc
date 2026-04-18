@@ -113,6 +113,7 @@ extern AnimationType sliderMove;
 extern BleKeyboard bleKeyboard;
 
 extern int lastNode;
+extern bool sdAvailable;
 
 enum Token {
     ADD, SUB, MUL, DIV, POW, SQRT, LN, EXP, SIN, COS, TAN, SEC, CSC, COT, ASIN, ACOS, ATAN, LPARA, RPARA, EQUALS, NEGATIVE, NUM, VAR
