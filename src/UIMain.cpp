@@ -199,7 +199,7 @@ void displayTitle()
         u8g2.setFont(u8g2_font_inb19_mf);
         u8g2.drawStr(78, 35, "SCI-CLAC");
         u8g2.setFont(u8g2_font_profont10_mf);
-        u8g2.drawStr(95, 55, ("Fuyu Ver.| " + VERSION).c_str());
+        u8g2.drawStr(100, 55, ("Fuyu Ver.| " + VERSION).c_str());
         u8g2.setFont(u8g2_font_profont10_mf);
     }
     // struct tm timeinfo = rtc.getTimeStruct();
